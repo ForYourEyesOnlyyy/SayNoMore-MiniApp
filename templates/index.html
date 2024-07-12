@@ -51,7 +51,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             Telegram.WebApp.ready();
-            const user = Telegram.WebApp.initDataUnsafe.user;
+            const user = Telegram.WebApp.initData.user;
 
             function changeLanguage() {
                 const language = document.getElementById('language').checked ? 'ru' : 'en';
