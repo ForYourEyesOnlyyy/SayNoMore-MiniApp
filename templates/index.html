@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trip Planner Form</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Cunia&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -116,6 +116,7 @@
                 document.getElementById('confirmation').style.display = 'block';
                 document.getElementById('confirmationText').textContent = JSON.stringify(tripDetails, null, 2);
 
+                // Send data to Flask backend
                 fetch('/submit', {
                     method: 'POST',
                     headers: {
@@ -127,14 +128,13 @@
                 .then(data => {
                     if (data.status === 'success') {
                         console.log(data.message);
+                        // Send data back to the Telegram bot
                         Telegram.WebApp.sendData(JSON.stringify(tripDetails));
                     } else {
                         console.error(data.message);
                     }
                 })
                 .catch(error => console.error('Error:', error));
-
-                Telegram.WebApp.sendData(JSON.stringify(tripDetails));
             }
         }
     </script>
