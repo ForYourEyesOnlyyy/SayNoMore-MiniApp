@@ -50,8 +50,9 @@
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            console.log('Document loaded');
             Telegram.WebApp.ready();
-            const user = Telegram.WebApp.initData.user;
+            const user = Telegram.WebApp.initDataUnsafe.user;
 
             function changeLanguage() {
                 const language = document.getElementById('language').checked ? 'ru' : 'en';
@@ -65,7 +66,10 @@
                 document.querySelector('button').textContent = translation.submit;
             }
 
+            window.changeLanguage = changeLanguage;
+
             function submitForm() {
+                console.log('Submit button clicked');
                 const form = document.getElementById('tripForm');
                 const formData = new FormData(form);
                 const requiredFields = ['departure', 'destination', 'arrival', 'return'];
@@ -92,6 +96,8 @@
                         budget: formData.get('budget')
                     };
 
+                    console.log('All fields filled', tripDetails);
+
                     document.getElementById('tripForm').style.display = 'none';
                     document.getElementById('confirmation').style.display = 'block';
                     document.getElementById('confirmationText').textContent = JSON.stringify(tripDetails, null, 2);
@@ -106,19 +112,24 @@
                     })
                     .then(response => response.json())
                     .then(data => {
+                        console.log('Response from Flask', data);
                         if (data.status === 'success') {
                             console.log(data.message);
                             // Send data back to the Telegram bot
                             Telegram.WebApp.sendData(JSON.stringify(tripDetails));
+                            console.log('Data sent to Telegram');
                         } else {
                             console.error(data.message);
                         }
                     })
-                    .catch(error => console.error('Error:', error));
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                } else {
+                    console.log('Not all fields are filled');
                 }
             }
 
-            window.changeLanguage = changeLanguage;
             window.submitForm = submitForm;
         });
 
