@@ -82,8 +82,8 @@
             document.querySelector('button').textContent = translation.submit;
         }
 
-        Telegram.WebApp.ready();
-        const user = Telegram.WebApp.initDataUnsafe.user;
+        window.Telegram.WebApp.ready();
+        const user = window.Telegram.WebApp.initDataUnsafe.user;
 
         function submitForm() {
             const form = document.getElementById('tripForm');
@@ -129,7 +129,7 @@
                     if (data.status === 'success') {
                         console.log(data.message);
                         // Send data back to the Telegram bot
-                        Telegram.WebApp.sendData(JSON.stringify(tripDetails));
+                        window.Telegram.WebApp.sendData(JSON.stringify(tripDetails));
                     } else {
                         console.error(data.message);
                     }
