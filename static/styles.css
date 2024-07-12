@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Cunia&family=Playfair+Display:wght@400;700&display=swap');
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #417d66;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.intent {
+    height: 20px;
+}
+
+.language-switcher {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.language-switcher span {
+    font-size: 14px;
+    color: #333;
+    margin: 0 10px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 70px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #417d66;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+h1 {
+    font-family: 'Cunia', sans-serif;
+    margin-bottom: 20px;
+    color: #417d66;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.form-group input.error {
+    border-color: red;
+}
+
+button {
+    background-color: #417d66;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #357a4e;
+}
+
+#confirmation {
+    text-align: left;
+    margin-top: 20px;
+}
+
+#confirmation h2 {
+    font-family: 'Cunia', sans-serif;
+    color: #417d66;
+}
+
+#confirmation p {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
