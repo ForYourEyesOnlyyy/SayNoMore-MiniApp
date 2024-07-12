@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, jsonify
+import requests
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="../templates", static_folder="../static")
 
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+# TELEGRAM_BOT_TOKEN = '7333725090:AAFC6DwjlSs5VvvJ6ML863e5yx8h-NgAR60'
 
 @app.route('/')
 def index():
