@@ -52,91 +52,96 @@
         document.addEventListener("DOMContentLoaded", function() {
             console.log('Document loaded');
             Telegram.WebApp.ready();
-            const user = Telegram.WebApp.initDataUnsafe.user;
-
-            function changeLanguage() {
-                const language = document.getElementById('language').checked ? 'ru' : 'en';
-                const translation = translations[language];
-                document.querySelector('.title').textContent = translation.title;
-                document.querySelector('label[for="departure"]').textContent = translation.departure;
-                document.querySelector('label[for="destination"]').textContent = translation.destination;
-                document.querySelector('label[for="arrival"]').textContent = translation.arrival;
-                document.querySelector('label[for="return"]').textContent = translation.return;
-                document.querySelector('label[for="budget"]').textContent = translation.budget;
-                document.querySelector('button').textContent = translation.submit;
-            }
-
-            window.changeLanguage = changeLanguage;
-
-            function submitForm() {
-                console.log('Submit button clicked');
-                const form = document.getElementById('tripForm');
-                const formData = new FormData(form);
-                const requiredFields = ['departure', 'destination', 'arrival', 'return'];
-
-                let allFieldsFilled = true;
-
-                requiredFields.forEach(field => {
-                    const input = document.getElementById(field);
-                    if (!input.value) {
-                        input.classList.add('error');
-                        allFieldsFilled = false;
-                        console.log('not fields filled', tripDetails);
-                    } else {
-                        input.classList.remove('error');
-                    }
-                });
-
-                if (allFieldsFilled) {
-                    const tripDetails = {
-                        userId: user.id,  // Use user ID as chat ID
-                        departure: formData.get('departure'),
-                        destination: formData.get('destination'),
-                        arrival: formData.get('arrival'),
-                        return: formData.get('return'),
-                        budget: formData.get('budget')
-                    };
-
-                    console.log('All fields filled', tripDetails);
-
-                    document.getElementById('tripForm').style.display = 'none';
-                    document.getElementById('confirmation').style.display = 'block';
-                    document.getElementById('confirmationText').textContent = JSON.stringify(tripDetails, null, 2);
-
-                    // Send data to Flask backend
-                    fetch('/submit', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(tripDetails)
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Response from Flask', data);
-                        if (data.status === 'success') {
-                            console.log(data.message);
-                            // Send data back to the Telegram bot
-                            Telegram.WebApp.sendData(JSON.stringify(tripDetails));
-                            console.log('Data sent to Telegram');
-                        } else {
-                            console.error(data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-                } else {
-                    console.log('Not all fields are filled');
+            
+            if (Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
+                const user = Telegram.WebApp.initDataUnsafe.user;
+                function changeLanguage() {
+                    const language = document.getElementById('language').checked ? 'ru' : 'en';
+                    const translation = translations[language];
+                    document.querySelector('.title').textContent = translation.title;
+                    document.querySelector('label[for="departure"]').textContent = translation.departure;
+                    document.querySelector('label[for="destination"]').textContent = translation.destination;
+                    document.querySelector('label[for="arrival"]').textContent = translation.arrival;
+                    document.querySelector('label[for="return"]').textContent = translation.return;
+                    document.querySelector('label[for="budget"]').textContent = translation.budget;
+                    document.querySelector('button').textContent = translation.submit;
                 }
+    
+                window.changeLanguage = changeLanguage;
+    
+                function submitForm() {
+                    console.log('Submit button clicked');
+                    const form = document.getElementById('tripForm');
+                    const formData = new FormData(form);
+                    const requiredFields = ['departure', 'destination', 'arrival', 'return'];
+    
+                    let allFieldsFilled = true;
+    
+                    requiredFields.forEach(field => {
+                        const input = document.getElementById(field);
+                        if (!input.value) {
+                            input.classList.add('error');
+                            allFieldsFilled = false;
+                            console.log('not fields filled', tripDetails);
+                        } else {
+                            input.classList.remove('error');
+                        }
+                    });
+    
+                    if (allFieldsFilled) {
+                        const tripDetails = {
+                            userId: user.id,  // Use user ID as chat ID
+                            departure: formData.get('departure'),
+                            destination: formData.get('destination'),
+                            arrival: formData.get('arrival'),
+                            return: formData.get('return'),
+                            budget: formData.get('budget')
+                        };
+    
+                        console.log('All fields filled', tripDetails);
+    
+                        document.getElementById('tripForm').style.display = 'none';
+                        document.getElementById('confirmation').style.display = 'block';
+                        document.getElementById('confirmationText').textContent = JSON.stringify(tripDetails, null, 2);
+    
+                        // Send data to Flask backend
+                        fetch('/submit', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(tripDetails)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Response from Flask', data);
+                            if (data.status === 'success') {
+                                console.log(data.message);
+                                // Send data back to the Telegram bot
+                                Telegram.WebApp.sendData(JSON.stringify(tripDetails));
+                                console.log('Data sent to Telegram');
+                            } else {
+                                console.error(data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                    } else {
+                        console.log('Not all fields are filled');
+                    }
+                }
+    
+                window.submitForm = submitForm;
+    
+                document.getElementById('tripForm').addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent default form submission
+                    submitForm();
+                });
+            } else {
+                console.error('Telegram Web App initDataUnsafe or user is undefined.');
             }
 
-            window.submitForm = submitForm;
-
-            document.getElementById('tripForm').addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevent default form submission
-                submitForm();
-            });
         });
 
         const translations = {
