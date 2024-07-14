@@ -11,10 +11,15 @@ def index():
     return render_template('index.html')
 
 @app.route('/submit', methods=['POST'])
-def submit():
-    data = request.json
-    print(f"Received form data: {data}")  # Log the data for debugging purposes
-    return jsonify({'status': 'success', 'message': 'Form submitted successfully!'})
+def submit_trip():
+    try:
+        data = request.get_json()
+        app.logger.info('Received data: %s', data)
+        # Process the data as needed
+        return jsonify({'status': 'success', 'message': 'Trip details received'})
+    except Exception as e:
+        app.logger.error('Error: %s', e)
+        return jsonify({'status': 'error', 'message': str(e)})
 
 if __name__ == '__main__':
     app.run(debug=True)
