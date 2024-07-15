@@ -11,7 +11,6 @@
 <body>
     <div class="container">
         <img src="/static/logo-white.png" alt="Logo" class="logo">
-        <h1 class="title">Форма Планирования Путешествия</h1>
         <form id="tripForm">
             <input type="hidden" id="chatId" name="chatId">
             <div class="form-group">
@@ -60,7 +59,6 @@
             function changeLanguage() {
                 const language = document.getElementById('language').checked ? 'en' : 'ru';
                 const translation = translations[language];
-                document.querySelector('.title').textContent = translation.title;
                 document.querySelector('label[for="departure"]').textContent = translation.departure;
                 document.querySelector('label[for="destination"]').textContent = translation.destination;
                 document.querySelector('label[for="arrival"]').textContent = translation.arrival;
