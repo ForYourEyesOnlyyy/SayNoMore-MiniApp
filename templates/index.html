@@ -36,7 +36,7 @@
             <button type="button" onclick="submitForm()">Submit</button>
         </form>
         <div class="intent"></div>
-        <div class="language-switcher">
+        <div class="language-switcher", id="languageSwitcher">
             <span>English</span>
             <label class="switch">
                 <input type="checkbox" id="language" onchange="changeLanguage()">
@@ -103,6 +103,7 @@
 
                     document.getElementById('tripForm').style.display = 'none';
                     document.getElementById('confirmation').style.display = 'block';
+                    document.getElementById('languageSwitcher').style.display = 'none';
                     document.getElementById('confirmationText').textContent = JSON.stringify(tripDetails, null, 2);
 
                     // Send data to Flask backend
