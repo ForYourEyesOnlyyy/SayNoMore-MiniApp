@@ -31,7 +31,7 @@
                 <label for="budget">Бюджет (необязательно):</label>
                 <input type="number" id="budget" name="budget">
             </div>
-            <button type="button" onclick="submitForm()">Submit</button>
+            <button type="button" onclick="submitForm()">Отправить</button>
         </form>
         <div class="intent"></div>
         <div class="language-switcher", id="languageSwitcher">
@@ -55,7 +55,7 @@
             const user_id = document.getElementById('chatId').value;
             
             function changeLanguage() {
-                const language = document.getElementById('language').checked ? 'ru' : 'en';
+                const language = document.getElementById('language').checked ? 'en' : 'ru';
                 const translation = translations[language];
                 document.querySelector('label[for="departure"]').textContent = translation.departure;
                 document.querySelector('label[for="destination"]').textContent = translation.destination;
