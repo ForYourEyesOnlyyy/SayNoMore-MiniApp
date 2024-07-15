@@ -20,12 +20,6 @@ body {
     text-align: center;
 }
 
-.logo {
-    width: 400px;
-    height: auto;
-    margin-bottom: 20px;
-}
-
 .intent {
     height: 20px;
 }
@@ -119,7 +113,8 @@ h1 {
 }
 
 button {
-    background-color: #417d66;
+    /* background-color: #417d66; */
+    background-color: #67417d;
     color: #ffffff;
     border: none;
     padding: 10px 20px;
