@@ -1,51 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trip Planner Form</title>
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+    <title>Форма Планирования Путешествия</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Cunia&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1 class="title">Trip Planner Form</h1>
+        <img src="{{ url_for('static', filename='logo-write.png') }}" alt="Logo" class="logo">
+        <h1 class="title">Форма Планирования Путешествия</h1>
         <form id="tripForm">
             <input type="hidden" id="chatId" name="chatId">
             <div class="form-group">
-                <label for="departure">Departure:</label>
+                <label for="departure">Откуда:</label>
                 <input type="text" id="departure" name="departure" required>
             </div>
             <div class="form-group">
-                <label for="destination">Destination:</label>
+                <label for="destination">Куда:</label>
                 <input type="text" id="destination" name="destination" required>
             </div>
             <div class="form-group">
-                <label for="arrival">Arrival Date:</label>
+                <label for="arrival">Когда:</label>
                 <input type="date" id="arrival" name="arrival" required>
             </div>
             <div class="form-group">
-                <label for="return">Return Date:</label>
+                <label for="return">Обратно:</label>
                 <input type="date" id="return" name="return" required>
             </div>
             <div class="form-group">
-                <label for="budget">Budget (optional):</label>
+                <label for="budget">Бюджет (необязательно):</label>
                 <input type="number" id="budget" name="budget">
             </div>
-            <button type="button" onclick="submitForm()">Submit</button>
+            <button type="button" onclick="submitForm()">Отправить</button>
         </form>
         <div class="intent"></div>
         <div class="language-switcher">
-            <span>English</span>
+            <span>Русский</span>
             <label class="switch">
                 <input type="checkbox" id="language" onchange="changeLanguage()">
                 <span class="slider round"></span>
             </label>
-            <span>Русский</span>
+            <span>English</span>
         </div>
         <div id="confirmation" style="display: none;">
-            <h2>Form Submitted</h2>
+            <h2>Готово!</h2>
             <p id="confirmationText"></p>
         </div>
     </div>
@@ -55,9 +57,9 @@
             Telegram.WebApp.ready();
 
             const user_id = document.getElementById('chatId').value;
-            
+
             function changeLanguage() {
-                const language = document.getElementById('language').checked ? 'ru' : 'en';
+                const language = document.getElementById('language').checked ? 'en' : 'ru';
                 const translation = translations[language];
                 document.querySelector('.title').textContent = translation.title;
                 document.querySelector('label[for="departure"]').textContent = translation.departure;
@@ -136,31 +138,31 @@
             window.submitForm = submitForm;
 
             document.getElementById('tripForm').addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevent default form submission
+                event.preventDefault();
                 submitForm();
             });
+
+            document.getElementById('language').checked = false;
+            changeLanguage();
         });
 
         const translations = {
             en: {
-                title: "Trip Planner Form",
-                departure: "Departure:",
-                destination: "Destination:",
-                arrival: "Arrival Date:",
+                departure: "Departure City:",
+                destination: "Destination City:",
+                arrival: "Departure Date:",
                 return: "Return Date:",
                 budget: "Budget (optional):",
                 submit: "Submit"
             },
             ru: {
-                title: "Форма Планирования Путешествия",
-                departure: "Место Отправления:",
-                destination: "Место Назначения:",
-                arrival: "Дата Прибытия:",
-                return: "Дата Возвращения:",
+                departure: "Куда",
+                destination: "Откуда",
+                arrival: "Когда",
+                return: "Обратно",
                 budget: "Бюджет (необязательно):",
                 submit: "Отправить"
             }
         };
     </script>
 </body>
-</html>
