@@ -35,7 +35,7 @@
             <button type="button" onclick="submitForm()">Отправить</button>
         </form>
         <div class="intent"></div>
-        <div class="language-switcher", id="languageSwitcher">
+        <div class="language-switcher" id="languageSwitcher">
             <span>Русский</span>
             <label class="switch">
                 <input type="checkbox" id="language" onchange="changeLanguage()">
@@ -44,7 +44,7 @@
             <span>English</span>
         </div>
         <div id="confirmation" style="display: none;">
-            <h2>Form Submitted</h2>
+            <h2>Готово</h2>
             <p id="confirmationText"></p>
         </div>
     </div>
@@ -54,7 +54,7 @@
             Telegram.WebApp.ready();
 
             const user_id = document.getElementById('chatId').value;
-            
+
             function changeLanguage() {
                 const language = document.getElementById('language').checked ? 'en' : 'ru';
                 const translation = translations[language];
@@ -73,21 +73,38 @@
                 const form = document.getElementById('tripForm');
                 const formData = new FormData(form);
                 const requiredFields = ['departure', 'destination', 'arrival', 'return'];
-
+                const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
                 let allFieldsFilled = true;
+                let dateCheckPassed = true;
 
                 requiredFields.forEach(field => {
                     const input = document.getElementById(field);
                     if (!input.value) {
                         input.classList.add('error');
                         allFieldsFilled = false;
-                        console.log('not fields filled', tripDetails);
                     } else {
                         input.classList.remove('error');
                     }
                 });
 
-                if (allFieldsFilled) {
+                const arrivalDate = document.getElementById('arrival');
+                const returnDate = document.getElementById('return');
+
+                if (arrivalDate.value < today) {
+                    arrivalDate.classList.add('date-error');
+                    dateCheckPassed = false;
+                } else {
+                    arrivalDate.classList.remove('date-error');
+                }
+
+                if (returnDate.value < today) {
+                    returnDate.classList.add('date-error');
+                    dateCheckPassed = false;
+                } else {
+                    returnDate.classList.remove('date-error');
+                }
+
+                if (allFieldsFilled && dateCheckPassed) {
                     const tripDetails = {
                         userId: user_id,  // Use user ID as chat ID
                         departure: formData.get('departure'),
@@ -128,7 +145,7 @@
                         console.error('Error:', error);
                     });
                 } else {
-                    console.log('Not all fields are filled');
+                    console.log('Not all fields are filled or dates are invalid');
                 }
             }
 

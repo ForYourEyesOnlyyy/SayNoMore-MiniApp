@@ -118,6 +118,10 @@ h1 {
     border-color: red;
 }
 
+.form-group input.date-error {
+    border-color: orange;
+}
+
 button {
     background-color: #417d66;
     color: #ffffff;
