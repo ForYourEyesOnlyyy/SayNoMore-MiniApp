@@ -20,6 +20,12 @@ body {
     text-align: center;
 }
 
+.logo {
+    width: 380px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
 .intent {
     height: 20px;
 }
