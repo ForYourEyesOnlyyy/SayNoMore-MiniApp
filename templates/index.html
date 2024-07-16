@@ -44,7 +44,8 @@
             <span>English</span>
         </div>
         <div id="confirmation" style="display: none;">
-            <h2>Form Submitted</h2>
+            <h2>Готово</h2>
+            <p id="confirmationText"></p>
         </div>
     </div>
     <script>
@@ -75,8 +76,6 @@
                 const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
                 let allFieldsFilled = true;
                 let dateCheckPassed = true;
-                let logicalDateCheckPassed = true;
-                let validCityNames = true;
 
                 requiredFields.forEach(field => {
                     const input = document.getElementById(field);
@@ -87,24 +86,6 @@
                         input.classList.remove('error');
                     }
                 });
-
-                const departureField = document.getElementById('departure');
-                const destinationField = document.getElementById('destination');
-                const lettersOnlyPattern = /^[A-Za-zА-Яа-яЁё]+$/;
-
-                if (!lettersOnlyPattern.test(departureField.value)) {
-                    departureField.classList.add('error');
-                    validCityNames = false;
-                } else {
-                    departureField.classList.remove('error');
-                }
-
-                if (!lettersOnlyPattern.test(destinationField.value)) {
-                    destinationField.classList.add('error');
-                    validCityNames = false;
-                } else {
-                    destinationField.classList.remove('error');
-                }
 
                 const arrivalDate = document.getElementById('arrival');
                 const returnDate = document.getElementById('return');
@@ -123,18 +104,7 @@
                     returnDate.classList.remove('date-error');
                 }
 
-                if (arrivalDate.value > returnDate.value) {
-                    arrivalDate.classList.add('date-error');
-                    returnDate.classList.add('date-error');
-                    logicalDateCheckPassed = false;
-                } else {
-                    if (dateCheckPassed) {
-                        arrivalDate.classList.remove('date-error');
-                        returnDate.classList.remove('date-error');
-                    }
-                }
-
-                if (allFieldsFilled && dateCheckPassed && logicalDateCheckPassed && validCityNames) {
+                if (allFieldsFilled && dateCheckPassed) {
                     const tripDetails = {
                         userId: user_id,  // Use user ID as chat ID
                         departure: formData.get('departure'),
@@ -175,7 +145,7 @@
                         console.error('Error:', error);
                     });
                 } else {
-                    console.log('Not all fields are filled, dates are invalid, or city names are invalid');
+                    console.log('Not all fields are filled or dates are invalid');
                 }
             }
 
